@@ -1,0 +1,15 @@
+Cómo Firestore guarda y recupera datos
+
+Firestore no usa tablas ni filas como una base de datos SQL tradicional. En su lugar, guarda cada registro individual como un "documento", que es básicamente un conjunto de campos con sus valores, muy parecido a un objeto JSON. Cada documento tiene un identificador único (en el proyecto, ese id que aparece en cada producto).
+
+Los documentos no flotan sueltos: se agrupan dentro de "colecciones", que actúan como contenedores — en este caso, la colección productos. Una colección solo puede contener documentos, y dentro de ella cada documento puede tener campos ligeramente distintos, aunque en la práctica conviene mantenerlos parecidos para poder consultarlos fácilmente.
+
+Nunca fue necesario crear la colección productos a mano en la consola. Eso es porque las colecciones y documentos se crean de forma implícita: apenas el código guarda datos en un documento dentro de una colección que no existe, Firestore la crea automáticamente.
+
+Para leer datos, se usan consultas: se puede pedir un documento específico, o todos los documentos de una colección que cumplan ciertas condiciones, combinando filtros y orden. Por ejemplo, la función suscribirProductos pide la colección completa ordenada por fecha de creación.
+
+Lo especial de Firestore es que, además de pedir los datos una vez, se puede suscribir a ellos con un listener en tiempo real (el onSnapshot usado en el servicio). En vez de que la app pregunte "¿hay algo nuevo?" cada cierto tiempo, Firestore mantiene los datos sincronizados entre todos los clientes conectados, avisando automáticamente cuando algo cambia. Por eso, si se edita un producto desde el celular y la página está abierta en la computadora, la tabla se actualiza sola sin recargar.
+
+Por último, Firestore también funciona sin conexión: guarda una copia local de los datos y sincroniza los cambios apenas vuelve la conectividad.
+
+Fuentes que use: documentación oficial de Firebase (firebase.google.com/docs/firestore) y Google Cloud (cloud.google.com/firestore/docs).
